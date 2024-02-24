@@ -1,0 +1,9 @@
+{
+    "configuration": "CDCOnBoot=cdc,PartitionScheme=default,CPUFreq=160,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=921600,DebugLevel=info,EraseFlash=none",
+    "board": "esp32:esp32:adafruit_qtpy_esp32c3",
+    "port": "COM15",
+    "programmer": "esptool",
+    "output": "./build",
+    "sketch": "ESP32-Deep-Sleep-REST-Button.ino",
+    "CONFIG_ESP_INT_WDT_TIMEOUT_MS": "8000"
+}
