@@ -171,6 +171,7 @@ void connectToWiFi()
     neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); // LED Red
     Serial.println("[connectToWiFi] ERROR! Cannot connect to Wifi :( going to sleep...");
     delay(3000);
+    neopixelWrite(RGB_BUILTIN, 0, 0, 0); // LED Off / black
     goSleep();
     }
     
@@ -219,7 +220,8 @@ void sendHTTPRequest(String endpoint)
   {
     Serial.println("[sendHTTPRequest] Connection failed!");
     neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); // LED Red
-    delay(1000);
+    delay(5000);
+    neopixelWrite(RGB_BUILTIN, 0, 0, 0); // LED Off / black
   }
   else
   {
