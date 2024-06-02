@@ -57,9 +57,6 @@ void setup()
   }
   Serial.begin(115200);
   pinMode(buttonPin, INPUT_PULLUP);
-  //connectToWiFi();
-  //Serial.print("[Setup] Connected to SSID ");
-  //Serial.println(ssid);
 
   // Trigger HA if Device was woken up by PIN
   if (esp_sleep_get_wakeup_cause() == 7)
