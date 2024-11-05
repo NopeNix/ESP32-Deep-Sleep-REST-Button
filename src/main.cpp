@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
 #include <ESPmDNS.h>
@@ -47,34 +48,6 @@ unsigned long startTime = 0; // When the button was pressed
 unsigned long elapsedTime = 0; // How long the button was held
 
 //
-// SETUP
-//
-void setup()
-{
-  if (esp_sleep_get_wakeup_cause() != 7)
-  {
-    neopixelWrite(RGB_BUILTIN,0,0,RGB_BRIGHTNESS); // LED Blue
-  }
-  Serial.begin(115200);
-  pinMode(buttonPin, INPUT_PULLUP);
-
-  // Trigger HA if Device was woken up by PIN
-  if (esp_sleep_get_wakeup_cause() == 7)
-  {
-    triggerHA();
-  }
-  neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-  goSleep();
-}
-
-//
-// MAIN LOOP
-//
-void loop()
-{
-}
-
-//
 // Sleep function
 //
 void goSleep()
@@ -83,72 +56,6 @@ void goSleep()
   Serial.println("[goSleep] Going to deep sleep");
   esp_deep_sleep_enable_gpio_wakeup((1ULL << buttonPin), ESP_GPIO_WAKEUP_GPIO_LOW);
   esp_deep_sleep_start();
-}
-
-//
-// TRIGGER HomeAssistant
-//
-void triggerHA()
-{
-  startTime = millis();
-  bool pressedshort = true;
-  bool pressedonesec = false;
-  bool pressedtwosec = false;
-
-  String webhookIDToUse = webhookIDshort;
-
-  Serial.println("[triggerHA] Button pressed...");
-  while ( digitalRead(buttonPin) == LOW)
-  {
-    elapsedTime = millis() - startTime;
-    if (elapsedTime > 2000)
-    {
-      if (!pressedtwosec) 
-      {
-        pressedtwosec = true;
-        Serial.println("[triggerHA] Button pressed for two seconds...");
-        webhookIDToUse = webhookIDtwosec;
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
-        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-        delay (200);
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
-        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-      }
-    } else if (elapsedTime > 1000)
-    {
-      if (!pressedonesec) 
-      {
-        pressedonesec = true;
-        Serial.println("[triggerHA] Button pressed for one second...");
-        webhookIDToUse = webhookIDonesec;
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
-        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-      }
-    }
-    delay(10);
-  }
-  Serial.print("[triggerHA] Button released, has been held for ");
-  Serial.print(elapsedTime);
-  Serial.println("ms");
-  
-  if (WiFi.status() != WL_CONNECTED)
-  {
-    Serial.println("[triggerHA] Wifi not connected, connecting...");
-    connectToWiFi();
-  }
-  else
-  {
-    Serial.println("[triggerHA] Wifi is already connected");
-  }
-
-  if (WiFi.status() == WL_CONNECTED)
-  {
-    Serial.println("[triggerHA] Sending HTTP Request");
-    sendHTTPRequest(webhookIDToUse);
-  }
 }
 
 //
@@ -250,3 +157,98 @@ void sendHTTPRequest(String endpoint)
     client.stop();
   }
 }
+
+//
+// TRIGGER HomeAssistant
+//
+void triggerHA()
+{
+  startTime = millis();
+  bool pressedshort = true;
+  bool pressedonesec = false;
+  bool pressedtwosec = false;
+
+  String webhookIDToUse = webhookIDshort;
+
+  Serial.println("[triggerHA] Button pressed...");
+  while ( digitalRead(buttonPin) == LOW)
+  {
+    elapsedTime = millis() - startTime;
+    if (elapsedTime > 2000)
+    {
+      if (!pressedtwosec) 
+      {
+        pressedtwosec = true;
+        Serial.println("[triggerHA] Button pressed for two seconds...");
+        webhookIDToUse = webhookIDtwosec;
+        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
+        delay (200);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay (200);
+        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
+        delay (200);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+      }
+    } else if (elapsedTime > 1000)
+    {
+      if (!pressedonesec) 
+      {
+        pressedonesec = true;
+        Serial.println("[triggerHA] Button pressed for one second...");
+        webhookIDToUse = webhookIDonesec;
+        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
+        delay (200);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+      }
+    }
+    delay(10);
+  }
+  Serial.print("[triggerHA] Button released, has been held for ");
+  Serial.print(elapsedTime);
+  Serial.println("ms");
+  
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.println("[triggerHA] Wifi not connected, connecting...");
+    connectToWiFi();
+  }
+  else
+  {
+    Serial.println("[triggerHA] Wifi is already connected");
+  }
+
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    Serial.println("[triggerHA] Sending HTTP Request");
+    sendHTTPRequest(webhookIDToUse);
+  }
+}
+
+//
+// SETUP
+//
+void setup()
+{
+  if (esp_sleep_get_wakeup_cause() != 7)
+  {
+    neopixelWrite(RGB_BUILTIN,0,0,RGB_BRIGHTNESS); // LED Blue
+  }
+  Serial.begin(115200);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  // Trigger HA if Device was woken up by PIN
+  if (esp_sleep_get_wakeup_cause() == 7)
+  {
+    triggerHA();
+  }
+  neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+  goSleep();
+}
+
+//
+// MAIN LOOP
+//
+void loop()
+{
+}
+
