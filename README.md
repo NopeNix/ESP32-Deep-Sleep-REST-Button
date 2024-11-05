@@ -12,3 +12,6 @@ const char *webhookIDshort = ""; // Homeassistant Webhook ID (not URL!) for a pr
 const char *webhookIDonesec = ""; // Homeassistant Webhook ID (not URL!) for a press between 1-2 seconds
 const char *webhookIDtwosec = ""; // Homeassistant Webhook ID (not URL!) for a press longer than 2 seconds
 ```
+
+## Debug and OTA
+Can be enabled by either setting ```debug = true;``` in ```main.cpp```  or by pressing and holding the Button for 5 Seconds
