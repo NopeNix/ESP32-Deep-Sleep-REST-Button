@@ -23,16 +23,16 @@ void connectToWiFi()
   {
     if (counter == 50)
     {
-    neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); // LED Red
-    Serial.println("[connectToWiFi] ERROR! Cannot connect to Wifi :( going to sleep...");
-    delay(3000);
-    neopixelWrite(RGB_BUILTIN, 0, 0, 0); // LED Off / black
-    goSleep();
+      neopixelWrite(RGB_BUILTIN, 0, RGB_BRIGHTNESS, 0); // LED Red
+      Serial.println("[connectToWiFi] ERROR! Cannot connect to Wifi :( going to sleep...");
+      delay(3000);
+      neopixelWrite(RGB_BUILTIN, 0, 0, 0); // LED Off / black
+      goSleep();
     }
-    
+
     if (isOdd == true)
     {
-      neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,RGB_BRIGHTNESS,0); // LED Yellow
+      neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, RGB_BRIGHTNESS, 0); // LED Yellow
     }
     else
     {
@@ -74,7 +74,7 @@ void sendHTTPRequest(String endpoint)
   if (!client.connect(serverUrl, 443, 5000))
   {
     Serial.println("[sendHTTPRequest] Connection failed!");
-    neopixelWrite(RGB_BUILTIN,0,RGB_BRIGHTNESS,0); // LED Red
+    neopixelWrite(RGB_BUILTIN, 0, RGB_BRIGHTNESS, 0); // LED Red
     delay(5000);
     neopixelWrite(RGB_BUILTIN, 0, 0, 0); // LED Off / black
   }
@@ -93,7 +93,7 @@ void sendHTTPRequest(String endpoint)
       if (line == "\r")
       {
         Serial.println("[sendHTTPRequest] headers received");
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,0,0); // LED Green
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, 0, 0); // LED Green
         delay(1000);
         break;
       }
@@ -123,60 +123,94 @@ void triggerHA()
   String webhookIDToUse = webhookIDshort;
 
   Serial.println("[triggerHA] Button pressed...");
-  while ( digitalRead(buttonPin) == LOW)
+  while (digitalRead(buttonPin) == LOW)
   {
     elapsedTime = millis() - startTime;
-  if (elapsedTime > 5000)
-  {
-    if (!pressedfivesec) 
+    if (elapsedTime > 10000)
+    {
+      if (!pressedfivesec)
       {
         pressedfivesec = true;
-        Serial.println("[triggerHA] Button pressed for five seconds...");
-        
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
+        Serial.println("[triggerHA] Button pressed for ten seconds...");
+
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
         neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-        delay (200);
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
         neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-        delay (200);
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
         neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-        delay (200);
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
         neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-        delay (200);
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+        delay(50);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(50);
         neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
       }
-  } else if (elapsedTime > 2000 and elapsedTime < 4999)
+    }
+    else if (elapsedTime > 2000 and elapsedTime < 9999)
     {
-      if (!pressedtwosec) 
+      if (!pressedtwosec)
       {
         pressedtwosec = true;
         Serial.println("[triggerHA] Button pressed for two seconds...");
         webhookIDToUse = webhookIDtwosec;
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(200);
         neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-        delay (200);
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
+        delay(200);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(200);
         neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
       }
-    } else if (elapsedTime > 1000)
+    }
+    else if (elapsedTime > 1000)
     {
-      if (!pressedonesec) 
+      if (!pressedonesec)
       {
         pressedonesec = true;
         Serial.println("[triggerHA] Button pressed for one second...");
         webhookIDToUse = webhookIDonesec;
-        neopixelWrite(RGB_BUILTIN,RGB_BRIGHTNESS,(RGB_BRIGHTNESS/2),0); // LED Orange
-        delay (200);
+        neopixelWrite(RGB_BUILTIN, RGB_BRIGHTNESS, (RGB_BRIGHTNESS / 2), 0); // LED Orange
+        delay(200);
         neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
       }
     }
@@ -185,8 +219,8 @@ void triggerHA()
   Serial.print("[triggerHA] Button released, has been held for ");
   Serial.print(elapsedTime);
   Serial.println("ms");
-  
-  if (WiFi.status() != WL_CONNECTED)
+
+  if (WiFi.status() != WL_CONNECTED and pressedfivesec != true)
   {
     Serial.println("[triggerHA] Wifi not connected, connecting...");
     connectToWiFi();
@@ -196,43 +230,51 @@ void triggerHA()
     Serial.println("[triggerHA] Wifi is already connected");
   }
 
-  if (WiFi.status() == WL_CONNECTED and pressedfivesec != true)
+  if (WiFi.status() == WL_CONNECTED and pressedfivesec == false)
   {
     Serial.println("[triggerHA] Sending HTTP Request");
     sendHTTPRequest(webhookIDToUse);
-  } else if (pressedfivesec == true) {
+  }
+  else if (pressedfivesec == true)
+  {
     debug = !debug;
-    Serial.println("[triggerHA] Debug triggered...");
+    Serial.printf("[triggerHA] Setting debug to ");
+    Serial.println(debug);
+    if (debug == false) 
+    {
+      Serial.printf("[triggerHA] Restarting ESP... ");
+      ESP.restart();
+    }
   }
 }
 
 //
 // OTA Function
 //
-void initializeOTA() {
-    // Connect to Wi-Fi
-    connectToWiFi();
+void initializeOTA()
+{
+  // Connect to Wi-Fi
+  connectToWiFi();
 
-    // Configure OTA
-    ArduinoOTA.onStart([]() {
+  // Configure OTA
+  ArduinoOTA.onStart([]()
+                     {
         String type;
         if (ArduinoOTA.getCommand() == U_FLASH) {
             type = "sketch";
         } else {
             type = "filesystem";
         }
-        Serial.println("[initializeOTA] Start updating " + type);
-    });
+        Serial.println("[initializeOTA] Start updating " + type); });
 
-    ArduinoOTA.onEnd([]() {
-        Serial.println("[initializeOTA] End");
-    });
+  ArduinoOTA.onEnd([]()
+                   { Serial.println("\n[initializeOTA] End"); });
 
-    ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-        Serial.printf("[initializeOTA] Progress: %u%%\r", (progress / (total / 100)));
-    });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total)
+                        { Serial.printf("\n[initializeOTA] Progress: %u%%\r", (progress / (total / 100))); });
 
-    ArduinoOTA.onError([](ota_error_t error) {
+  ArduinoOTA.onError([](ota_error_t error)
+                     {
         Serial.printf("[initializeOTA] Error[%u]: ", error);
         if (error == OTA_AUTH_ERROR) {
             Serial.println("[initializeOTA] Auth Failed");
@@ -244,16 +286,16 @@ void initializeOTA() {
             Serial.println("[initializeOTA] Receive Failed");
         } else if (error == OTA_END_ERROR) {
             Serial.println("[initializeOTA] End Failed");
-        }
-    });
+        } });
 
-    ArduinoOTA.begin();
-    Serial.println("[initializeOTA] Ready for OTA updates");
+  ArduinoOTA.begin();
+  Serial.println("[initializeOTA] Ready for OTA updates");
 }
 
 //
 // OTA Handle
 //
-void handleOTA() {
-    ArduinoOTA.handle();
+void handleOTA()
+{
+  ArduinoOTA.handle();
 }

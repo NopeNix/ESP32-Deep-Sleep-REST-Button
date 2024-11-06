@@ -14,4 +14,4 @@ const char *webhookIDtwosec = ""; // Homeassistant Webhook ID (not URL!) for a p
 ```
 
 ## Debug and OTA
-Can be enabled by either setting ```debug = true;``` in ```main.cpp```  or by pressing and holding the Button for 5 Seconds
+Can be enabled by either setting ```debug = true;``` in ```main.cpp```  or by pressing and holding the Button for 10 Seconds

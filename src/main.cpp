@@ -19,11 +19,11 @@ bool previousButtonState = LOW;
 #define RGB_BUILTIN 10
 
 // For 1sec and 2sec click
-unsigned long startTime = 0; // When the button was pressed
+unsigned long startTime = 0;   // When the button was pressed
 unsigned long elapsedTime = 0; // How long the button was held
 
 // Debug switch either triggered by 5sec+ hold or manually here
-bool debug = true;
+bool debug = false;
 
 // Custom Includes
 #include "WiFiCredentialsAndServerURL.h"
@@ -37,7 +37,7 @@ void setup()
 {
   if (esp_sleep_get_wakeup_cause() != 7)
   {
-    neopixelWrite(RGB_BUILTIN,0,0,RGB_BRIGHTNESS); // LED Blue
+    neopixelWrite(RGB_BUILTIN, 0, 0, RGB_BRIGHTNESS); // LED Blue
   }
   Serial.begin(115200);
   pinMode(buttonPin, INPUT_PULLUP);
@@ -48,11 +48,15 @@ void setup()
     triggerHA();
   }
   neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
-  if (debug == false) {
-  goSleep();
-  } else {
+  if (debug == false)
+  {
+    neopixelWrite(RGB_BUILTIN, 0, 0, 0); // Off / black
+    goSleep();
+  }
+  else
+  {
     Serial.println("[setup] Debug Enabled, staying awake");
-    initializeOTA();  
+    initializeOTA();
   }
 }
 
@@ -61,14 +65,17 @@ void setup()
 //
 void loop()
 {
-  handleOTA();
-  neopixelWrite(RGB_BUILTIN, 20, 0, 20); // Light Blue
-  bool currentButtonState = digitalRead(buttonPin);
-  if (previousButtonState == HIGH && currentButtonState == LOW) {
-    Serial.println("[loop] Button Pressed!");
-    triggerHA();
+  if (debug == true)
+  {
+    handleOTA();
+    neopixelWrite(RGB_BUILTIN, 20, 0, 20); // Light Blue
+    bool currentButtonState = digitalRead(buttonPin);
+    if (previousButtonState == HIGH && currentButtonState == LOW)
+    {
+      Serial.println("[loop] Button Pressed!");
+      triggerHA();
+    }
+    previousButtonState = currentButtonState;
+    delay(50);
   }
-  previousButtonState = currentButtonState;
-  delay(50);
 }
-
